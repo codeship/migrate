@@ -15,6 +15,10 @@ import (
 	"strings"
 )
 
+const(
+  NoTransactionString = "-- @NoTransactions"
+)
+
 var filenameRegex = `^([0-9]+)_(.*)\.(up|down)\.%s$`
 
 // FilenameRegex builds regular expression stmt with given
@@ -43,6 +47,9 @@ type File struct {
 
 	// UP or DOWN migration
 	Direction direction.Direction
+
+	// Use transaction
+ 	UseTransactions bool
 }
 
 // Files is a slice of Files
@@ -67,6 +74,11 @@ type MigrationFiles []MigrationFile
 func (f *File) ReadContent() error {
 	if len(f.Content) == 0 {
 		content, err := ioutil.ReadFile(path.Join(f.Path, f.FileName))
+
+		if bytes.Contains(content, []byte(NoTransactionString)){
+			f.UseTransactions = false
+		}
+
 		if err != nil {
 			return err
 		}
