@@ -15,6 +15,10 @@ import (
 	"strings"
 )
 
+const(
+  NoTransactionString = "-- @NoTransactions"
+)
+
 var filenameRegex = `^([0-9]+)_(.*)\.(up|down)\.%s$`
 
 // FilenameRegex builds regular expression stmt with given
@@ -71,9 +75,9 @@ func (f *File) ReadContent() error {
 	if len(f.Content) == 0 {
 		content, err := ioutil.ReadFile(path.Join(f.Path, f.FileName))
 
-		r := bytes.NewBuffer(content)
- 		line, err := r.ReadString('\n')
- 		f.UseTransactions = !strings.Contains(line, "-- @NoTransactions")
+		if bytes.Contains(content, []byte(NoTransactionString)){
+			f.UseTransactions = false
+		}
 
 		if err != nil {
 			return err
