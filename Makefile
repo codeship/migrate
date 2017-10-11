@@ -4,6 +4,10 @@ DCR=docker-compose run --rm
 
 all: release
 
+deps:
+	dep ensure
+	dep prune
+
 clean:
 	rm -f migrate
 
