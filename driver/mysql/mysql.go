@@ -11,10 +11,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/go-sql-driver/mysql"
 	"github.com/codeship/migrate/driver"
 	"github.com/codeship/migrate/file"
 	"github.com/codeship/migrate/migrate/direction"
+	"github.com/go-sql-driver/mysql"
 )
 
 type Driver struct {
@@ -54,7 +54,7 @@ func (driver *Driver) Close() error {
 func (driver *Driver) ensureVersionTableExists() error {
 	_, err := driver.db.Exec("CREATE TABLE IF NOT EXISTS " + tableName + " (version int not null primary key);")
 
-	if _, isWarn := err.(mysql.MySQLWarnings); err != nil && !isWarn {
+	if err != nil {
 		return err
 	}
 
