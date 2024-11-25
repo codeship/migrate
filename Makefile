@@ -31,7 +31,7 @@ endif
 
 lint: $(GOLANGCI_LINT)
 	@echo "--> Running golangci-lint"
-	golangci-lint run
+	GO111MODULE=on golangci-lint run
 
 test:
 	go test -short -v ./...
