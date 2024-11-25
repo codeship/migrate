@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"github.com/codeship/migrate/migrate/direction"
 	"go/token"
-	"io/ioutil"
+	"os"
 	"path"
 	"regexp"
 	"sort"
@@ -73,7 +73,7 @@ type MigrationFiles []MigrationFile
 // ReadContent reads the file's content if the content is empty
 func (f *File) ReadContent() error {
 	if len(f.Content) == 0 {
-		content, err := ioutil.ReadFile(path.Join(f.Path, f.FileName))
+		content, err := os.ReadFile(path.Join(f.Path, f.FileName))
 
 		if bytes.Contains(content, []byte(NoTransactionString)){
 			f.UseTransactions = false
@@ -164,7 +164,7 @@ func (mf *MigrationFiles) From(version uint64, relativeN int) (Files, error) {
 // ReadMigrationFiles reads all migration files from a given path
 func ReadMigrationFiles(path string, filenameRegex *regexp.Regexp) (files MigrationFiles, err error) {
 	// find all migration files in path
-	ioFiles, err := ioutil.ReadDir(path)
+	ioFiles, err := os.ReadDir(path)
 	if err != nil {
 		return nil, err
 	}
