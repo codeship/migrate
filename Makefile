@@ -15,9 +15,6 @@ endif
 
 all: release
 
-deps:
-	go get -t -v ./...
-
 clean:
 	rm -f migrate
 
