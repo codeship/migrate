@@ -16,8 +16,7 @@ endif
 all: release
 
 deps:
-	dep ensure
-	dep prune
+	go get -t -v ./...
 
 clean:
 	rm -f migrate
@@ -35,7 +34,7 @@ lint: $(GOLANGCI_LINT)
 	golangci-lint run
 
 test:
-	$(DCR) go-test
+	go test -short -v ./...
 
 build:
 	$(DCR) go-build
