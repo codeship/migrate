@@ -180,7 +180,7 @@ func writePipe(pipe chan interface{}) (ok bool) {
 
 					case error:
 						c := color.New(color.FgRed)
-						c.Println(item.(error).Error(), "\n")
+						c.Print(item.(error).Error(), "\n\n")
 						okFlag = false
 
 					case file.File:
