@@ -1,7 +1,6 @@
 package migrate
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 	// Ensure imports for each driver we wish to test
@@ -18,7 +17,7 @@ var driverUrls = []string{
 func TestCreate(t *testing.T) {
 	for _, driverUrl := range driverUrls {
 		t.Logf("Test driver: %s", driverUrl)
-		tmpdir, err := ioutil.TempDir("/tmp", "migrate-test")
+		tmpdir, err := os.MkdirTemp("/tmp", "migrate-test")
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -30,7 +29,7 @@ func TestCreate(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		files, err := ioutil.ReadDir(tmpdir)
+		files, err := os.ReadDir(tmpdir)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -59,7 +58,7 @@ func TestCreate(t *testing.T) {
 func TestReset(t *testing.T) {
 	for _, driverUrl := range driverUrls {
 		t.Logf("Test driver: %s", driverUrl)
-		tmpdir, err := ioutil.TempDir("/", "migrate-test")
+		tmpdir, err := os.MkdirTemp("/", "migrate-test")
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -84,7 +83,7 @@ func TestReset(t *testing.T) {
 func TestDown(t *testing.T) {
 	for _, driverUrl := range driverUrls {
 		t.Logf("Test driver: %s", driverUrl)
-		tmpdir, err := ioutil.TempDir("/tmp", "migrate-test")
+		tmpdir, err := os.MkdirTemp("/tmp", "migrate-test")
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -121,7 +120,7 @@ func TestDown(t *testing.T) {
 func TestUp(t *testing.T) {
 	for _, driverUrl := range driverUrls {
 		t.Logf("Test driver: %s", driverUrl)
-		tmpdir, err := ioutil.TempDir("/tmp", "migrate-test")
+		tmpdir, err := os.MkdirTemp("/tmp", "migrate-test")
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -158,7 +157,7 @@ func TestUp(t *testing.T) {
 func TestRedo(t *testing.T) {
 	for _, driverUrl := range driverUrls {
 		t.Logf("Test driver: %s", driverUrl)
-		tmpdir, err := ioutil.TempDir("/tmp", "migrate-test")
+		tmpdir, err := os.MkdirTemp("/tmp", "migrate-test")
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -195,7 +194,7 @@ func TestRedo(t *testing.T) {
 func TestMigrate(t *testing.T) {
 	for _, driverUrl := range driverUrls {
 		t.Logf("Test driver: %s", driverUrl)
-		tmpdir, err := ioutil.TempDir("/tmp", "migrate-test")
+		tmpdir, err := os.MkdirTemp("/tmp", "migrate-test")
 		if err != nil {
 			t.Fatal(err)
 		}
