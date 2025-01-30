@@ -12,7 +12,7 @@ clean:
 	rm -f migrate
 
 test:
-	$(DCR) go-test
+	go test -short -v ./...
 
 build:
 	$(DCR) go-build
