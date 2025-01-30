@@ -58,7 +58,7 @@ func TestCreate(t *testing.T) {
 func TestReset(t *testing.T) {
 	for _, driverUrl := range driverUrls {
 		t.Logf("Test driver: %s", driverUrl)
-		tmpdir, err := os.MkdirTemp("/", "migrate-test")
+		tmpdir, err := os.MkdirTemp("/tmp", "migrate-test")
 		if err != nil {
 			t.Fatal(err)
 		}
