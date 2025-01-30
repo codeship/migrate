@@ -2,7 +2,6 @@ package file
 
 import (
 	"github.com/codeship/migrate/migrate/direction"
-	"io/ioutil"
 	"os"
 	"path"
 	"testing"
@@ -55,27 +54,27 @@ func TestParseFilenameSchema(t *testing.T) {
 }
 
 func TestFiles(t *testing.T) {
-	tmpdir, err := ioutil.TempDir("/tmp", "TestLookForMigrationFilesInSearchPath")
+	tmpdir, err := os.MkdirTemp("/tmp", "TestLookForMigrationFilesInSearchPath")
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer os.RemoveAll(tmpdir)
 
-	if err := ioutil.WriteFile(path.Join(tmpdir, "nonsense.txt"), nil, 0755); err != nil {
+	if err := os.WriteFile(path.Join(tmpdir, "nonsense.txt"), nil, 0755); err != nil {
 		t.Fatal("Unable to write files in tmpdir", err)
 	}
-	ioutil.WriteFile(path.Join(tmpdir, "002_migrationfile.up.sql"), nil, 0755)
-	ioutil.WriteFile(path.Join(tmpdir, "002_migrationfile.down.sql"), nil, 0755)
+	os.WriteFile(path.Join(tmpdir, "002_migrationfile.up.sql"), nil, 0755)
+	os.WriteFile(path.Join(tmpdir, "002_migrationfile.down.sql"), nil, 0755)
 
-	ioutil.WriteFile(path.Join(tmpdir, "001_migrationfile.up.sql"), nil, 0755)
-	ioutil.WriteFile(path.Join(tmpdir, "001_migrationfile.down.sql"), nil, 0755)
+	os.WriteFile(path.Join(tmpdir, "001_migrationfile.up.sql"), nil, 0755)
+	os.WriteFile(path.Join(tmpdir, "001_migrationfile.down.sql"), nil, 0755)
 
-	ioutil.WriteFile(path.Join(tmpdir, "101_create_table.up.sql"), nil, 0755)
-	ioutil.WriteFile(path.Join(tmpdir, "101_drop_tables.down.sql"), nil, 0755)
+	os.WriteFile(path.Join(tmpdir, "101_create_table.up.sql"), nil, 0755)
+	os.WriteFile(path.Join(tmpdir, "101_drop_tables.down.sql"), nil, 0755)
 
-	ioutil.WriteFile(path.Join(tmpdir, "301_migrationfile.up.sql"), nil, 0755)
+	os.WriteFile(path.Join(tmpdir, "301_migrationfile.up.sql"), nil, 0755)
 
-	ioutil.WriteFile(path.Join(tmpdir, "401_migrationfile.down.sql"), []byte("test"), 0755)
+	os.WriteFile(path.Join(tmpdir, "401_migrationfile.down.sql"), []byte("test"), 0755)
 
 	files, err := ReadMigrationFiles(tmpdir, FilenameRegex("sql"))
 	if err != nil {
@@ -235,17 +234,17 @@ func TestDuplicateFiles(t *testing.T) {
 // the calling function exits.
 func makeFiles(testname string, names ...string) (root string, cleanup func(), err error) {
 	cleanup = func() {}
-	root, err = ioutil.TempDir("/tmp", testname)
+	root, err = os.MkdirTemp("/tmp", testname)
 	if err != nil {
 		return
 	}
 	cleanup = func() { os.RemoveAll(root) }
-	if err = ioutil.WriteFile(path.Join(root, "nonsense.txt"), nil, 0755); err != nil {
+	if err = os.WriteFile(path.Join(root, "nonsense.txt"), nil, 0755); err != nil {
 		return
 	}
 
 	for _, name := range names {
-		if err = ioutil.WriteFile(path.Join(root, name), nil, 0755); err != nil {
+		if err = os.WriteFile(path.Join(root, name), nil, 0755); err != nil {
 			return
 		}
 	}
